@@ -14,13 +14,12 @@ jobs:
       - run:
           name: Run
           command: |
-            if is_changed "firestore-testing"; then
+            if Changed "firestore-testing"; then
               cd firestore-testing
               docker build -t himanoa/firestore-testing .
               docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
               docker push himanoa/firestore-testing
               git commit --allow-empty -m "[ci-skip] Release firestore-testing"
-            else
             fi
 workflows:
   version: 2
