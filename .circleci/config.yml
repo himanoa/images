@@ -14,7 +14,7 @@ jobs:
       - run:
           name: Run
           command: |
-            if Changed "firestore-testing"; then
+            if bin/Changed "firestore-testing"; then
               cd firestore-testing
               docker build -t himanoa/firestore-testing .
               docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
