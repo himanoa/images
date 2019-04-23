@@ -1,7 +1,7 @@
 version: 2
-common_stepup_commaand: &common_stepup_commaand
+common_setup_command: &common_setup_command
   command: |
-    echo 'export PATH=$PATH:${CIRCLE_WORKING_DIRECTORY}/bin' >> $BASH_ENV
+    apk add bash
 jobs:
   release_firestore_testing:
     docker:
@@ -9,7 +9,7 @@ jobs:
     steps:
       - checkout
       - run:
-          <<: *common_stepup_commaand
+          <<: *common_setup_command
       - setup_remote_docker
       - run:
           name: Run
