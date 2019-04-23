@@ -1,7 +1,11 @@
 version: 2
 common_setup_command: &common_setup_command
   command: |
+    apk add git
     apk add bash
+    git config --global push.default simple
+    git config --global user.email matsunoappy@gmail.com
+    git config --global user.name himanoa
 jobs:
   release_firestore_testing:
     docker:
