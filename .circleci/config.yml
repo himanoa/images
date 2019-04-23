@@ -1,0 +1,29 @@
+version: 2
+common_stepup_commaand: &common_stepup_commaand
+  command: |
+    echo 'export PATH=$PATH:${CIRCLE_WORKING_DIRECTORY}/bin' >> $BASH_ENV
+jobs:
+  release_firestore_testing:
+    docker:
+      - image: "docker:18.06.3-ce"
+    steps:
+      - checkout
+      - run:
+          <<: *common_stepup_commaand
+      - setup_remote_docker
+      - run:
+          name: Run
+          command: |
+            if is_changed "firestore-testing"; then
+              cd firestore-testing
+              docker build -t himanoa/firestore-testing .
+              docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
+              docker push himanoa/firestore-testing
+              git commit --allow-empty -m "[ci-skip] Release firestore-testing"
+            else
+            fi
+workflows:
+  version: 2
+  test:
+    jobs:
+      - release_firestore_testing
